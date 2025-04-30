@@ -5,13 +5,25 @@ from datetime import datetime
 import pandas as pd
 import plotly.express as px
 
-# 🔐 Google Sheets authentication
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-client = gspread.authorize(creds)
+# Authenticate and connect to Google Sheets
+def connect_to_gsheet(creds_json, spreadsheet_name, sheet_name):
+    scope = ["https://spreadsheets.google.com/feeds", 
+             'https://www.googleapis.com/auth/spreadsheets',
+             "https://www.googleapis.com/auth/drive.file", 
+             "https://www.googleapis.com/auth/drive"]
+    
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(creds_json, scope)
+    client = gspread.authorize(credentials)
+    spreadsheet = client.open(spreadsheet_name)  
+    return spreadsheet.worksheet(sheet_name)  # Access specific sheet by name
 
-# 📄 Open the correct sheet by key
-sheet = client.open_by_key("19ZXAG6iRFdKi9XHnoySLZqWUDpZhKnviFrsi1I8PcRo").sheet1
+# Google Sheet credentials and details
+SPREADSHEET_NAME = 'MoodLog'
+SHEET_NAME = 'Sheet1'
+CREDENTIALS_FILE = './credentials.json'
+
+# Connect to the Google Sheet
+sheet = connect_to_gsheet(CREDENTIALS_FILE, SPREADSHEET_NAME, SHEET_NAME)
 
 # 🌟 Streamlit UI
 st.title("🎯 Mood of the Queue")
