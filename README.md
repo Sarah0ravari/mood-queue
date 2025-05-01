@@ -28,3 +28,7 @@ This is a lightweight internal tool for logging and visualizing the emotional "v
    ```bash
    git clone https://github.com/yourusername/mood-queue.git
    cd mood-queue
+
+---
+### Demo Video
+https://github.com/user-attachments/assets/ba6ab9f1-e98c-4dd6-afe5-36d28ba8938f
